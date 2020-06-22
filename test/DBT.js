@@ -28,6 +28,16 @@ describe('DBT', () => {
     delta.updates[0].values.should.contain.an.item.with.property('path', 'environment.depth.belowTransducer')
     delta.updates[0].values.should.contain.an.item.with.property('value', 10.83)
   })
+  it('Converts Feet-only sentence', () => {
+    const delta = new Parser().parse('$IIDBT,035.53,f,,M,,F*21')
+    delta.updates[0].values.should.contain.an.item.with.property('path', 'environment.depth.belowTransducer')
+    delta.updates[0].values.should.contain.an.item.with.property('value', 10.829675688856376)
+  })
+  it('Converts Fathoms-only sentence', () => {
+    const delta = new Parser().parse('$IIDBT,,f,,M,005.85,F*29')
+    delta.updates[0].values.should.contain.an.item.with.property('path', 'environment.depth.belowTransducer')
+    delta.updates[0].values.should.contain.an.item.with.property('value', 10.698610095098756)
+  })
 
   it('Doesn\'t choke on empty sentences', () => {
     const delta = new Parser().parse('$IIDBT,,,,,,*52')

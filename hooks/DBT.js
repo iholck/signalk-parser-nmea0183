@@ -38,9 +38,20 @@ Field Number:
 
 module.exports = function (input) {
   const { id, sentence, parts, tags } = input
+  let depthValue = 0;
 
   if ((typeof parts[2] !== 'string' && typeof parts[2] !== 'number') || (typeof parts[2] === 'string' && parts[2].trim() === '')) {
-    return null
+    if ((typeof parts[0] !== 'string' && typeof parts[0] !== 'number') || (typeof parts[0] === 'string' && parts[0].trim() === '')) {
+      if ((typeof parts[4] !== 'string' && typeof parts[4] !== 'number') || (typeof parts[4] === 'string' && parts[4].trim() === '')) {
+        return null
+      } else {
+        depthValue = utils.transform(parts[4], 'fa', 'm');
+      }
+    } else {
+      depthValue = utils.transform(parts[0], 'ft', 'm');
+    }
+  } else {
+    depthValue = parts[2];
   }
 
   const delta = {
@@ -51,7 +62,7 @@ module.exports = function (input) {
         values: [
           {
             path: 'environment.depth.belowTransducer',
-            value: utils.float(parts[2])
+            value: utils.float(depthValue)
           }
         ]
       }
